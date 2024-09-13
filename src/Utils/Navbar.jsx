@@ -3,9 +3,9 @@ import React, { useContext } from 'react'
 import { UserContext } from '../App'
 
 const Navbar = () => {
-    const { login, setLogin } = useContext(UserContext)
+    const { user, login, setLogin } = useContext(UserContext)
     const handleLogout = () => {
-        axios.post('https://salesmanagementbackend.basic2ai.info/logout')
+        axios.get('https://salesmanagementbackend.basic2ai.info/logout')
             .then(res => {
                 console.log(res.data)
                 if (res.status == 200) {
@@ -48,8 +48,8 @@ const Navbar = () => {
                                 </div>
                             </li> */}
                         </ul>
-                        {login && <a href='/register'>Register New Account</a>}
-                        {login && <button className='btn' onClick={e => handleLogout()}>Logout</button>} &nbsp;&nbsp;&nbsp;
+                        {login && <a href='/register'>{user ? user.role === "superAdmin" ? 'Register' : 'Login' : 'Login'}</a>}
+                        {/* {login && <button className='btn' onClick={e => handleLogout()}>Logout</button>} &nbsp;&nbsp;&nbsp; */}
                     </div>
                 </nav>
             }

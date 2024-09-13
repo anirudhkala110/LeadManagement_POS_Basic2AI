@@ -13,14 +13,13 @@ const Login = () => {
     const [msg_type, setMsg_Type] = useState(null)
     const handleLogin = (e) => {
         e.preventDefault()
-        console.log(username,password)
         axios.post('https://salesmanagementbackend.basic2ai.info/login', { username: username, password: password })
             .then(res => {
                 // console.log(res.data)
                 setMsg(res.data.msg)
                 setMsg_Type(res.data.msg_type)
                 if (res.data.msg_type !== 'error')
-                    window.location.href = '/'
+                    window.location.href = '/home'
             })
             .catch(err => {
                 console.log(err)

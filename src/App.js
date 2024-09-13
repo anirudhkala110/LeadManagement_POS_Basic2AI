@@ -27,6 +27,13 @@ function App() {
       .catch(err => {
         console.log(err);
       });
+    axios.get('https://salesmanagementbackend.basic2ai.info')
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     // axios.get('http://localhost:8000/auth/api/get-csrf-token/')
     //   .then(response => {
     //     console.log(response.data)
@@ -44,7 +51,8 @@ function App() {
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/" element={login ? <Homepage /> : <Landing />} />
+            <Route path="/" element={<Login />} />
+            {login && <Route path="/home" element={<Homepage />} />}
             {user && <Route path="/register" element={user.role === "superAdmin" ? <Register /> : <Login />} />}
           </Routes>
         </Router>
