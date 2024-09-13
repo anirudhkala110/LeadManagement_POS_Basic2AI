@@ -122,7 +122,7 @@ const Employee = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {employeeList.length > 0 ? employeeList.map((data, idx) => (
+                        {employeeList > 0 ? employeeList.map((data, idx) => (
                             <tr key={idx}>
                                 <td>{data.username}</td>
                                 <td>{data.role}</td>
