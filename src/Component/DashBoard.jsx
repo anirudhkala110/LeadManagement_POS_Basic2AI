@@ -20,13 +20,13 @@ const DashBoard = () => {
   const [allUniqueEstates, setAllUniqueEstates] = useState([])
   useEffect(() => {
     axios.get('https://salesmanagementbackend.basic2ai.info/get_data_to_admin/employee')
-        .then(res => {
-            setEmployeeList(res.data.data);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}, []);
+      .then(res => {
+        setEmployeeList(res.data.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
   useEffect(() => {
     axios.get('https://salesmanagementbackend.basic2ai.info/api/all/customer')
       .then(res => {
@@ -106,7 +106,7 @@ const DashBoard = () => {
               <div className='card p-0' onClick={() => handleButtonRequest(1)}>
                 <div className='card-header text-center'>All Employee</div>
                 <div className='card-body'>
-                  Total Employee: {employeeList.length}
+                  Total Employee: {employeeList ? employeeList.length : 0}
                 </div>
                 <div className='card-footer'>
                   <button className='btn btn-primary rounded-0'>See Details</button>
