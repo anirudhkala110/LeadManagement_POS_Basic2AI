@@ -33,13 +33,13 @@ const Landing = () => {
                             <h1>Basic to AI</h1>
                             <img src={Logo} style={{ height: '150px' }} alt="Logo" />
                             <br />
-                            <button
+                            {/* <button
                                 className='btn btn-success rounded-0 w-100'
                                 onClick={() => setRegister(!register)}
                                 style={{ fontWeight: "700", fontSize: '18px', width: '250px' }}
                             >
                                 Switch to {register ? 'Login' : 'Register'}
-                            </button>
+                            </button> */}
                         </center>
                         {!register ? <Login /> : <Register />}
                     </div>

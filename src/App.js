@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Utils/Navbar';
 import Register from './Auth/Register';
+import Login from './Auth/Login';
 
 axios.defaults.withCredentials = true;
 
@@ -44,7 +45,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={login ? <Homepage /> : <Landing />} />
-            {user.role === "superAdmin" && <Route path="/register" element={<Register />} />}
+            {user && <Route path="/register" element={user.role === "superAdmin" ? <Register /> : <Login />} />}
           </Routes>
         </Router>
       </div>
