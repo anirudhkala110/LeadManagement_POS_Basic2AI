@@ -12,7 +12,7 @@ const Landing = () => {
     const [user, setUser] = useState(null);  // Initialize as null
   
     useEffect(() => {
-      axios.get('http://localhost:5020/loggin')
+      axios.get('https://salesmanagementbackend.basic2ai.info/loggin')
         .then(res => {
           setUser(res.data);  // Set user data from the API response
           setLogin(res.data.login);  // Set login state
