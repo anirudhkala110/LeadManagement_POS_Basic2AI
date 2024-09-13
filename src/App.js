@@ -17,7 +17,7 @@ function App() {
   const [csrfToken, setCsrfToken] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5020/loggin')
+    axios.get('https://salesmanagementbackend.basic2ai.info/loggin')
       .then(res => {
         setUser(res.data);  // Set user data from the API response
         setLogin(res.data.login);  // Set login state
@@ -25,15 +25,15 @@ function App() {
       .catch(err => {
         console.log(err);
       });
-    axios.get('http://localhost:8000/auth/api/get-csrf-token/')
-      .then(response => {
-        console.log(response.data)
-        axios.defaults.headers.common['X-CSRFToken'] = response.data.csrfToken;
-        setCsrfToken(response.data.csrfToken);
-      })
-      .catch(error => {
-        console.error('Error fetching CSRF token:', error);
-      });
+    // axios.get('http://localhost:8000/auth/api/get-csrf-token/')
+    //   .then(response => {
+    //     console.log(response.data)
+    //     axios.defaults.headers.common['X-CSRFToken'] = response.data.csrfToken;
+    //     setCsrfToken(response.data.csrfToken);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching CSRF token:', error);
+    //   });
   }, []);  // Empty array ensures this only runs once on component mount
 
   return (
