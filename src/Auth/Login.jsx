@@ -13,7 +13,7 @@ const Login = () => {
     const [msg_type, setMsg_Type] = useState(null)
     const handleLogin = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:5020/login', { username: username, password: password })
+        axios.post('https://salesmanagementbackend.basic2ai.info/login', { username: username, password: password })
             .then(res => {
                 console.log(res.data)
                 setMsg(res.data.msg)
