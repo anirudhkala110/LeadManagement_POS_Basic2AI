@@ -15,8 +15,6 @@ const Homepage = () => {
         btn3: false
     })
 
-
-
     return (
         <div className='w-100 bg-light container' style={{ minWidth: '350px' }}>
             <div className=''>

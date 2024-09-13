@@ -51,7 +51,7 @@ function App() {
         <Router>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Landing />} />
             {login && <Route path="/home" element={<Homepage />} />}
             {user && <Route path="/register" element={user.role === "superAdmin" ? <Register /> : <Login />} />}
           </Routes>
