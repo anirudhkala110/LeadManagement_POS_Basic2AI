@@ -19,7 +19,7 @@ const DashBoard = () => {
   const [uniqueEstatesLength, setUniqueEstatesLength] = useState(0)
   const [allUniqueEstates, setAllUniqueEstates] = useState([])
   useEffect(() => {
-    axios.get('http://localhost:5020/get_data_to_admin/employee')
+    axios.get('https://salesmanagementbackend.basic2ai.info/get_data_to_admin/employee')
         .then(res => {
             setEmployeeList(res.data.data);
         })
@@ -28,7 +28,7 @@ const DashBoard = () => {
         });
 }, []);
   useEffect(() => {
-    axios.get('http://localhost:5020/api/all/customer')
+    axios.get('https://salesmanagementbackend.basic2ai.info/api/all/customer')
       .then(res => {
         setCompleteCustomerList(res.data.data);
 
@@ -46,7 +46,7 @@ const DashBoard = () => {
 
   useEffect(() => {
     if (user?.email) {
-      axios.get(`http://localhost:5020/prev_available_location/${user.email}`)
+      axios.get(`https://salesmanagementbackend.basic2ai.info/prev_available_location/${user.email}`)
         .then(res => {
           setPreviosuAllotedLocations(res.data.data[0] || null)
         })
@@ -87,7 +87,7 @@ const DashBoard = () => {
     <div>
       <div className='my-3 d-flex mb-5 shadow'>
         {user.profilePic ? (
-          <img src={`http://localhost:5020/Images/${user.profilePic}`} style={{ maxWidth: '150px', height: 'auto' }} />
+          <img src={`https://salesmanagementbackend.basic2ai.info/Images/${user.profilePic}`} style={{ maxWidth: '150px', height: 'auto' }} />
         ) : (
           <div className='d-flex align-items-center justify-content-center border' style={{ width: '150px', background: '#ab47bc', fontSize: '80px', filter: 'drop-shadow(0px 0px 3px black)', color: 'white' }}>
             {user.username[0]}
