@@ -16,7 +16,7 @@ const Employee = () => {
     const { user, csrfToken } = useContext(UserContext);
 
     useEffect(() => {
-        axios.get('http://localhost:5020/api/all/customer')
+        axios.get('https://salesmanagementbackend.basic2ai.info/api/all/customer')
             .then(res => {
                 setCompleteCustomerList(res.data.data);
 
@@ -31,7 +31,7 @@ const Employee = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:5020/get_data_to_admin/employee')
+        axios.get('https://salesmanagementbackend.basic2ai.info/get_data_to_admin/employee')
             .then(res => {
                 setEmployeeList(res.data.data);
             })
@@ -62,7 +62,7 @@ const Employee = () => {
 
     const handleLocationSave = (email) => {
         const djangoData = { ...allotedLocations, email: email, assigned_by: user.email };
-        axios.post(`http://localhost:5020/alloted_locations/${email}`, { allotedLocations: allotedLocations })
+        axios.post(`https://salesmanagementbackend.basic2ai.info/alloted_locations/${email}`, { allotedLocations: allotedLocations })
             .then(res => {
                 if (res.status == 200) {
                     alert(`Location Updated Successfully for ${email}.`)
