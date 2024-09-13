@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     axios.get('https://salesmanagementbackend.basic2ai.info/loggin')
       .then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         setUser(res.data);  // Set user data from the API response
         setLogin(res.data.login);  // Set login state
       })
