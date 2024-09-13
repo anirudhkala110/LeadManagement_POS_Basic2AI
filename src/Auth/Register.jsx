@@ -53,7 +53,7 @@ const Register = () => {
         formData.append('verified', userRegisterData.verified);
         console.log(formData,userRegisterData.first_name)
 
-        axios.post('http://localhost:5020/register', formData, {
+        axios.post('https://salesmanagementbackend.basic2ai.info/register', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', // Set the correct content type for file uploads
             },
@@ -65,7 +65,7 @@ const Register = () => {
                 setMsg_Type(res.data.msg_type)
                 if(res.data.msg_type==='good'){
                     try {
-                        const response = axios.post('http://localhost:8000/auth/api/register/', {
+                        const response = axios.post('https://salesmanagementbackend.basic2ai.info/auth/api/register/', {
                             username: userRegisterData.username,
                             first_name: userRegisterData.first_name,
                             email: userRegisterData.email,
