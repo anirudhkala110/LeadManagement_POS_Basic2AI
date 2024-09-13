@@ -15,7 +15,7 @@ export const UserContext = createContext(null);
 function App() {
   const [login, setLogin] = useState(null);
   const [user, setUser] = useState(null);  // Initialize as null
-  const [csrfToken, setCsrfToken] = useState('');
+  const [csrfToken, setCsrfToken] = useState(null);
 
   useEffect(() => {
     axios.get('https://salesmanagementbackend.basic2ai.info/loggin')

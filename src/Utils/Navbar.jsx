@@ -3,14 +3,15 @@ import React, { useContext } from 'react'
 import { UserContext } from '../App'
 
 const Navbar = () => {
-    const { login } = useContext(UserContext)
+    const { login, setLogin } = useContext(UserContext)
     const handleLogout = () => {
         axios.post('https://salesmanagementbackend.basic2ai.info/logout')
             .then(res => {
                 console.log(res.data)
-                // if (res.status == 200) {
-                //     window.location.href = '/'
-                // }
+                if (res.status == 200) {
+                    setLogin(false)
+                    window.location.href = '/'
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -25,12 +26,12 @@ const Navbar = () => {
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                            <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                {/* <li class="nav-item">
+                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            {/* <li class="nav-item">
                                 <a class="nav-link" href="#">Features</a>
                             </li>
                             <li class="nav-item">
@@ -46,10 +47,10 @@ const Navbar = () => {
                                     <a class="dropdown-item" href="#">Something else here</a>
                                 </div>
                             </li> */}
-                            </ul>
-                            {login && <a href='/register'>Register New Account</a>}
-                            {login && <button className='btn' onClick={e => handleLogout()}>Logout</button>} &nbsp;&nbsp;&nbsp;
-                        </div>
+                        </ul>
+                        {login && <a href='/register'>Register New Account</a>}
+                        {login && <button className='btn' onClick={e => handleLogout()}>Logout</button>} &nbsp;&nbsp;&nbsp;
+                    </div>
                 </nav>
             }
 

@@ -14,6 +14,7 @@ const Landing = () => {
     useEffect(() => {
       axios.get('https://salesmanagementbackend.basic2ai.info/loggin')
         .then(res => {
+            // console.log(res)
           setUser(res.data);  // Set user data from the API response
           setLogin(res.data.login);  // Set login state
         })

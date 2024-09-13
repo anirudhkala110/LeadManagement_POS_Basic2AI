@@ -13,9 +13,10 @@ const Login = () => {
     const [msg_type, setMsg_Type] = useState(null)
     const handleLogin = (e) => {
         e.preventDefault()
+        console.log(username,password)
         axios.post('https://salesmanagementbackend.basic2ai.info/login', { username: username, password: password })
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 setMsg(res.data.msg)
                 setMsg_Type(res.data.msg_type)
                 if (res.data.msg_type !== 'error')
@@ -40,7 +41,7 @@ const Login = () => {
     return (
         <div>
             <center className=''>
-                <form className='form p-3 bg-white' onSubmit={handleLogin} style={{ maxWidth: '500px' }}>
+                <form className='form p-3 bg-white' style={{ maxWidth: '500px' }}>
                     <center className='mb-3' style={{ fontSize: '25px', filter: 'drop-shadow(5px 5px 10px black)' }}>Login Page</center>
                     {
                         msg && <span style={{ fontSize: '18px' }} className={`fs-3 my-2 ${msg_type === 'error' ? 'text-danger' : 'text-success'}`}>{msg}</span>
@@ -57,7 +58,7 @@ const Login = () => {
                         <input type={`${show ? 'text' : 'password'}`} placeholder='Enter Your Password...' className='form-control w-100' onChange={e => setPassword(e.target.value)} />
                         <sm className="btn btn-outline-dark border-0 rounded-0 py-1" onClick={e => setShow(!show)} style={{ cursor: 'pointer', fontSize: '12px' }}>{show ? 'Hide Password' : 'Show Password'}</sm>
                     </div>
-                    <button className='btn btn-success rounded-0 w-100'>Login</button>
+                    <button className='btn btn-success rounded-0 w-100' onClick={e => handleLogin(e)}>Login</button>
                 </form>
             </center>
         </div>
