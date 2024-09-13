@@ -1,0 +1,298 @@
+import axios from 'axios';
+import React, { useState, useRef, useEffect } from 'react';
+import { Check, XLg } from 'react-bootstrap-icons';
+
+const row = [1, 2, 3, 4, 5];
+
+const AddCustomer = () => {
+    const [newStatus, setNewStatus] = useState(0);
+    const [showForm, setShowForm] = useState(false); // Set to false to initially hide the form
+    const [currentDate, setCurrentDate] = useState('');
+    const formRef = useRef(null); // Ref for form container
+    const [msg, setMsg] = useState(null)
+    const [msg_type, setMsg_Type] = useState(null)
+    const [completeCustomerList, setCompleteCustomerList] = useState([])
+
+    // Handle clicks outside the form to close it
+    useEffect(() => {
+        console.log('All Customers Data')
+        axios.get('http://localhost:5020/api/all/customer')
+            .then(res => {
+                console.log(res.data.data)
+                setCompleteCustomerList(res.data.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    })
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (formRef.current && !formRef.current.contains(event.target)) {
+                setShowForm(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showForm]);
+
+    // Set the current date on component mount
+    useEffect(() => {
+        const today = new Date().toISOString().split('T')[0];
+        setCurrentDate(today);
+    }, []);
+
+    const [newCustomerData, setNewCustomerData] = useState({
+        name: '',
+        mobile: '',
+        email: '',
+        village: '',
+        district: '',
+        city: '',
+        estate: '',
+        zipCode: '',
+        source: '',
+        followUp_date: '',
+        status: 0,
+        remark: ''
+    })
+
+    const handleNumberValue = (e, len) => {
+        if (len) {
+            if (e.target.value.length <= len) {
+                if (len === 10) {
+                    setNewCustomerData({ ...newCustomerData, mobile: e.target.value })
+                }
+                else if (len === 6) {
+                    setNewCustomerData({ ...newCustomerData, zipCode: e.target.value })
+                }
+                else {
+                    alert("unknown Length")
+                }
+            }
+            else {
+                alert(`Limit exceeds for length ${len}`)
+            }
+        } else {
+            alert('Unknown Field')
+        }
+    }
+
+    const handleSubmitNewCustomer = (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:5020/register/customer', { newCustomerData: newCustomerData })
+            .then(res => {
+                console.log(res.data);
+                setMsg(res.data.msg)
+                setMsg_Type(res.data.msg_type) // Hide the form after successful submission
+                // setShowForm(false);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    const stringSplit = (strings) => {
+        const newString = strings.split('T')
+        const date = newString[0]
+        const time = newStatus[1]
+        return ([date, time])
+    }
+    const calculateDaysLeft = (followUpDate) => {
+        const today = new Date();
+        const followUp = new Date(followUpDate);
+
+        // Calculate the difference in milliseconds
+        const difference = followUp - today;
+
+        // Convert milliseconds to days
+        const daysLeft = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+        return daysLeft;
+    }
+    console.log(completeCustomerList)
+    return (
+        <div className='p-2'>
+            <div className='w-100 d-flex align-items-center justify-content-between '>
+                <button className='m-1 btn border-0 rounded-0'>All Customers</button>
+                <button
+                    className='m-1 btn btn-success border-0 rounded-0'
+                    onClick={() => setShowForm(true)}
+                >
+                    Add Customer
+                </button>
+            </div>
+            <div className='table-responsive'>
+                <table className='table table-bordered table-stripped table-hover'>
+                    <thead>
+                        <tr>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>#</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Name</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Phone</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Email</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Village</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>District</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>City</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>State</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Zip Code</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Source</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Status</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Follow Up Date</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Days Left</th>
+                            <th className='col' style={{ width: 'max-content', verticalAlign: 'top' }}>Remark</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            completeCustomerList.length > 0 ? completeCustomerList.map((data, idx) => (
+                                <tr key={idx}>
+                                    <td style={{ verticalAlign: 'top' }}>{parseInt(idx) + 1}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.name}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.mobile}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.email}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.village}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.district}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.city}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.estate}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.zipCode}</td>
+                                    <td style={{ verticalAlign: 'top' }}>{data.source}</td>
+                                    <td style={{ verticalAlign: 'top' }}>
+                                        <select
+                                            className={`btn border ${data.status == 0 ? 'text-success' : 'text-danger'} rounded-0`}
+                                            onChange={e => setNewStatus(e.target.value)}
+                                        >
+                                            <option value={0} selected={data.status == 0}><b className='bi bi-check'><Check /></b> &nbsp;Active</option>
+                                            <option value={1} selected={data.status == 1}><b className='bi bi-check'><XLg /></b> &nbsp;Closed</option>
+                                        </select>
+                                    </td>
+                                    <td style={{ verticalAlign: 'top' }} >{stringSplit(data.followUp_date)}</td>
+                                    {calculateDaysLeft(stringSplit(data.followUp_date)) > 20 && <td style={{ verticalAlign: 'top',fontSize:'16px',fontWeight:'700',filter:'drop-shadow(1px 1px 1px #28A745)' }} className='text-success'>{calculateDaysLeft(stringSplit(data.followUp_date))} Days Left</td>}
+                                    {calculateDaysLeft(stringSplit(data.followUp_date)) < 20 && calculateDaysLeft(stringSplit(data.followUp_date)) > 10 && <td style={{ verticalAlign: 'top',fontSize:'16px',fontWeight:'700',filter:'drop-shadow(1px 1px 1px #FFC107)' }} className='text-warning'>{calculateDaysLeft(stringSplit(data.followUp_date))} Days Left</td>}
+                                    {calculateDaysLeft(stringSplit(data.followUp_date)) <= 10 && <td style={{ verticalAlign: 'top',fontSize:'16px',fontWeight:'700',filter:'drop-shadow(1px 1px 1px #DC3545)' }} className='text-danger'>{calculateDaysLeft(stringSplit(data.followUp_date))} Days Left</td>}
+                                    <td>
+                                        <textarea
+                                            className='p-2 border border-light'
+                                            value='Likes the service. Wants to Buy More Items.'
+                                            cols={30}
+                                            rows={2}
+                                            style={{ resize: 'none' }}
+                                        ></textarea>
+                                    </td>
+                                </tr>
+                            )) : <tr >
+                                <td colSpan={13} className='text-center'>No Data Available</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            {/* Conditional rendering for the form */}
+            {showForm && (
+                <div
+                    className='modal'
+                    style={{
+                        display: 'block',
+                        position: 'fixed',
+                        top: '0',
+                        left: '0',
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        zIndex: '1000',
+                        overflowY: 'auto'
+                    }}
+                >
+                    <div
+                        className='modal-content'
+                        style={{
+                            backgroundColor: 'white',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            margin: '5% auto',
+                            maxWidth: '600px',
+                            overflow: 'auto',
+                            maxHeight: '80vh'
+                        }}
+                        ref={formRef}
+                    >
+                        <h2>Add New Customer</h2>
+                        <form onSubmit={handleSubmitNewCustomer}>
+                            <div className='mb-3'>
+                                <label className='form-label'>Name</label>
+                                <input required type='text' className='form-control' onChange={e => setNewCustomerData({ ...newCustomerData, name: e.target.value })} />
+                            </div>
+                            <div className='mb-3'>
+                                <label className='form-label' >Phone</label>
+                                <input required type='number' className='form-control' onChange={e => handleNumberValue(e, 10)} value={newCustomerData.mobile} />
+                            </div>
+                            <div className='mb-3'>
+                                <label className='form-label'>Email</label>
+                                <input required type='email' className='form-control' onChange={e => setNewCustomerData({ ...newCustomerData, email: e.target.value })} />
+                            </div>
+                            <div className='row'>
+                                <div className='mb-3 col-4'>
+                                    <label className='form-label'>Village</label>
+                                    <input required type='text' className='form-control' onChange={e => setNewCustomerData({ ...newCustomerData, village: e.target.value })} />
+                                </div>
+                                <div className='mb-3 col-4'>
+                                    <label className='form-label'>District</label>
+                                    <input required type='text' className='form-control' onChange={e => setNewCustomerData({ ...newCustomerData, district: e.target.value })} />
+                                </div>
+                                <div className='mb-3 col-4'>
+                                    <label className='form-label'>City</label>
+                                    <input required type='text' className='form-control' onChange={e => setNewCustomerData({ ...newCustomerData, city: e.target.value })} />
+                                </div>
+                                <div className='mb-3 col-4'>
+                                    <label className='form-label'>State</label>
+                                    <input required type='text' className='form-control' onChange={e => setNewCustomerData({ ...newCustomerData, estate: e.target.value })} />
+                                </div>
+                                <div className='mb-3 col-4'>
+                                    <label className='form-label' >Zip Code</label>
+                                    <input required type='number' className='form-control' onChange={e => handleNumberValue(e, 6)} value={newCustomerData.zipCode} />
+                                </div>
+                                <div className='mb-3 col-4'>
+                                    <label className='form-label'>Source</label>
+                                    <input required type='text' className='form-control' onChange={e => setNewCustomerData({ ...newCustomerData, source: e.target.value })} />
+                                </div>
+                            </div>
+                            <div className='mb-3'>
+                                <label className='form-label'>Status</label>
+                                <select className='form-control' value={newCustomerData.status} onChange={e => setNewCustomerData({ ...newCustomerData, status: e.target.value })}>
+                                    <option value={0}>Active</option>
+                                    <option value={1}>Closed</option>
+                                </select>
+                            </div>
+                            <div className='mb-3'>
+                                <label className='form-label'>Follow Up Date</label>
+                                <input required
+                                    type='date'
+                                    className='form-control'
+                                    min={currentDate}
+                                    value={newCustomerData.followUp_date}
+                                    onChange={e => setNewCustomerData({ ...newCustomerData, followUp_date: e.target.value })} />
+                            </div>
+                            <div className='mb-3'>
+                                <label className='form-label'>Remark</label>
+                                <textarea className='form-control w-100' rows='3' value={newCustomerData.remark} onChange={e => setNewCustomerData({ ...newCustomerData, remark: e.target.value })}></textarea>
+                            </div>
+                            <button type='submit' className='btn btn-success rounded-0'>Submit</button>
+                            <button
+                                type='button'
+                                className='btn btn-secondary rounded-0 m-2'
+                                onClick={() => setShowForm(false)}
+                            >
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default AddCustomer;
