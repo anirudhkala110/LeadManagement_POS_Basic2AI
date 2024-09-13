@@ -35,7 +35,7 @@ function App() {
     //   .catch(error => {
     //     console.error('Error fetching CSRF token:', error);
     //   });
-  });  // Empty array ensures this only runs once on component mount
+  },[]);  // Empty array ensures this only runs once on component mount
 
   return (
     <UserContext.Provider value={{ user, login, csrfToken, setUser, setLogin }}>
