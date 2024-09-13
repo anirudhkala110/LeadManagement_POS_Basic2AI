@@ -214,7 +214,7 @@ const AddCustomer = () => {
 
     // Fetch customer data on component mount
     useEffect(() => {
-        axios.get('http://localhost:5020/api/all/customer')
+        axios.get('https://salesmanagementbackend.basic2ai.info/api/all/customer')
             .then(res => {
                 setCompleteCustomerList(res.data.data);
             })

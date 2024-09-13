@@ -8,9 +8,9 @@ const Navbar = () => {
         axios.post('https://salesmanagementbackend.basic2ai.info/logout')
             .then(res => {
                 console.log(res.data)
-                if (res.status == 200) {
-                    window.location.href = '/'
-                }
+                // if (res.status == 200) {
+                //     window.location.href = '/'
+                // }
             })
             .catch(err => {
                 console.log(err)
