@@ -5,7 +5,7 @@ import { UserContext } from '../App'
 const Navbar = () => {
     const { login } = useContext(UserContext)
     const handleLogout = () => {
-        axios.get('http://localhost:5020/logout')
+        axios.get('https://salesmanagementbackend.basic2ai.info/logout')
             .then(res => {
                 if (res.status == 200) {
                     window.location.href = '/'
