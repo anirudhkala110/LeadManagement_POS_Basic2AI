@@ -263,7 +263,7 @@ const AddCustomer = () => {
 
         try {
             // Send data to Node.js
-            const nodeResponse = await axios.post('http://localhost:5020/register/customer', { newCustomerData: newCustomerData });
+            const nodeResponse = await axios.post('https://salesmanagementbackend.basic2ai.info/register/customer', { newCustomerData: newCustomerData });
             if (nodeResponse) {
                 setMsg("Customer successfully created in both systems.");
                 setMsg_Type("success");
@@ -286,7 +286,7 @@ const AddCustomer = () => {
             // setShowForm(false); // Hide the form after successful submission
 
             // Refresh the customer list
-            axios.get('http://localhost:5020/api/all/customer')
+            axios.get('https://salesmanagementbackend.basic2ai.info/api/all/customer')
                 .then(res => {
                     setCompleteCustomerList(res.data.data);
                 })
