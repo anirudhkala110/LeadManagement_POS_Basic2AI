@@ -183,7 +183,7 @@ const DashBoard = () => {
             <div className='btn ' style={{ fontSize: '25px', fontWeight: '700' }}>All Available Locations</div>
             <div className='row p-3'>
               {availableLocations && splitAllLocations(availableLocations).map((data, idx) => (
-                <div className='col-2 col-sm-6 col-md-3 py-2' key={idx}>
+                <div className='col-lg-4 col-xl-3 col-sm-6 col-md-3 py-2' key={idx}>
                   <div className='shadow rounded hoverBtn p-3 ' style={{ boxShadow: 'inset 1px 1px 10px 1px #E8E8E9' }}>
                     {data}
                   </div>
