@@ -48,7 +48,7 @@ const Navbar = () => {
                                 </div>
                             </li> */}
                         </ul>
-                        {login && <a href='/register'>{user ? user.role === "superAdmin" ? 'Register' : 'Login' : 'Login'}</a>}
+                        {login && <a href='/register'>{user ? user.role === "superAdmin" ? 'Register New User' : 'Login' : 'Login'}</a>}
                         {/* {login && <button className='btn' onClick={e => handleLogout()}>Logout</button>} &nbsp;&nbsp;&nbsp; */}
                     </div>
                 </nav>
